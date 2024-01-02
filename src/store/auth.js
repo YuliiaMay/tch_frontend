@@ -54,9 +54,8 @@ export const useAuthStore = create(
 
                 try {
                     const response = await fetchLogin(values);
-
                     set(() => ({
-                        token: response,
+                        token: response.token,
                         isAuth: true,
                         loading: false
                     }));

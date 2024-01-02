@@ -34,7 +34,7 @@ export const fetchLogin = async (values) => {
             `/api/auth/login`,
             values
         );
-
+        
         return response.data.data;
     } catch (error) {
         if (error.response.status === STATUS_CODES.unauthorized) {

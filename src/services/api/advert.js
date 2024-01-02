@@ -10,7 +10,6 @@ export const fetchAllCategories = async () => {
         const response = await axios.get(
             `/open/categories/getall`,
         );
-
         return response.data.data;
     } catch (error) {
         console.log(error.message);
@@ -26,7 +25,6 @@ export const fetchAllAdverts = async () => {
         const response = await axios.get(
             `/open/advertisements/getall`,
         );
-
         return response.data.data;
     } catch (error) {
         console.log(error.message);
@@ -39,13 +37,11 @@ export const fetchAllAdverts = async () => {
  */
 export const fetchAdvertById = async (advertId) => {
     const body = { id: Number(advertId) };
-
     try {
         const response = await axios.get(
             `/open/advertisements/getbyid/${advertId}`,
             body,
         );
-
         return response.data.data;
     } catch (error) {
         console.log(error.message);
@@ -65,7 +61,6 @@ export const fetchCreateAdvert = async (data) => {
             data,
             { headers: {'Authorization': TOKEN} }
         );
-
         return response;
     } catch (error) {
         console.log(error.message);
@@ -86,7 +81,6 @@ export const fetchDeleteAdvert = async (data) => {
                 data: data
             }
         );
-
         return response;
     } catch (error) {
         console.log(error.message);
@@ -105,7 +99,6 @@ export const fetchUpdateAdvert = async (data) => {
             data,
             { headers: {'Authorization': TOKEN} }
         );
-
         return response;
     } catch (error) {
         console.log(error.message);

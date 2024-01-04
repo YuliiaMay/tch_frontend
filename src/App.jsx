@@ -6,6 +6,7 @@ import { FontStyles } from './styles/FontStyles';
 import { useAuthStore } from './store/auth';
 
 import SharedLayout from './components/SharedLayout';
+import MainPage from './pages/MainPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ConditionsPage from './pages/ConditionsPage';
@@ -54,7 +55,9 @@ const App = () => {
       <FontStyles />
       <Routes>
         <Route path='/' element={<SharedLayout />}>
-          <Route index element={<CoursesPage />} />
+          <Route index element={<MainPage />} />
+          <Route path='/courses' element={<CoursesPage />} />
+
           <Route path='/courses/:advertId' element={<AdvertDetailsPage />} />
           
           <Route

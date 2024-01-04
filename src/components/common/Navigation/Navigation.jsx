@@ -6,7 +6,7 @@ export const Navigation = ({ className }) => {
     return (
         <StyledNavContainer className={className}>
             <StyledNav className='nav-list' >
-                <LinkHeader to='/' >Teachers</LinkHeader>
+                <LinkHeader to='/courses' >Teachers</LinkHeader>
                 <LinkHeader to='/my-advert' >My advertisements</LinkHeader>
                 <LinkHeader to='/profile' >My profile</LinkHeader>
             </StyledNav>

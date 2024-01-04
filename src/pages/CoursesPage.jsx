@@ -18,14 +18,17 @@ const CoursesPage = () => {
             setAdverts(data);
             
             return data;
-        } catch(error) {
+        } catch (error) {
             console.log(error.message);
         }
-    }
+    }    
 
+    
     return (
         <>
-            <Gallery adverts={adverts} />
+            {
+                adverts && <Gallery adverts={adverts} />
+            }
         </>
         
     );

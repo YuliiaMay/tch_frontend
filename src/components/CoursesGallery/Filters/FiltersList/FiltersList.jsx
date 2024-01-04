@@ -9,7 +9,8 @@ import {
 
 const FiltersList = () => {
     const [categories, setCategories] = useState([]);
-
+    
+    
     useEffect(() => {
         getCategories();
     }, []);
@@ -29,7 +30,7 @@ const FiltersList = () => {
     return (
         <List>
             {
-                categories.map(({parent_id, parent_name, children}) => (
+                categories && categories.map(({parent_id, parent_name, children}) => (
                     <FiltersListSection
                         key={parent_id}
                         title={parent_name}

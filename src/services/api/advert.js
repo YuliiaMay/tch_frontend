@@ -10,7 +10,8 @@ export const fetchAllCategories = async () => {
         const response = await axios.get(
             `/open/categories/getall`,
         );
-        return response.data.data;
+
+        return response.data;
     } catch (error) {
         console.log(error.message);
     }
@@ -25,9 +26,11 @@ export const fetchAllAdverts = async () => {
         const response = await axios.get(
             `/open/advertisements/getall`,
         );
+
         return response.data.data;
     } catch (error) {
         console.log(error.message);
+        return null;
     }
 }
 

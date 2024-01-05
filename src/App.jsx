@@ -40,11 +40,12 @@ const App = () => {
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
+    console.log('urlSearchParams', urlSearchParams);
     const googleToken = urlSearchParams.get('token');
-
+    console.log('googleToken', googleToken);
     if (googleToken) {
       setToken(googleToken);
-      navigate('/');
+      navigate('/courses');
     }
   }, [setToken, navigate]);
 

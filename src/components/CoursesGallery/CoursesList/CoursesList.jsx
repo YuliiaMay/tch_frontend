@@ -1,45 +1,37 @@
+import PropTypes from 'prop-types';
 import { CourseCard } from '../CourseCard';
-import courses from '../../../courses.json';
 import { List } from './CoursesList.styled';
+import Loader from '../../common/Loader/Loader';
 
 
-const CoursesList = () => {
+const CoursesList = ({ isVisible = true, adverts }) => {
     return (
-        <List>
+        <>
             {
-                courses.map(({
-                    id,
-                    title,
-                    author,
-                    experience,
-                    duration,
-                    price,
-                    lessonFormat,
-                    category,
-                    subcategory,
-                    lessonLenguage,
-                    content,
-                    avatar
-                }) =>
-                <CourseCard
-                    key={id}
-                    title={title}
-                    author={author}
-                    experience={experience}
-                    duration={duration}
-                    price={price}
-                    lessonFormat={lessonFormat}
-                    category={category}
-                    subcategory={subcategory}
-                    lessonLenguage={lessonLenguage}
-                    content={content}
-                    avatar={avatar}                
-                />
-            )
-            }
-            
-        </List>
+                !adverts
+                    ? <Loader/>
+                    : (
+                        <List $isVisible={isVisible}>
+                            {
+                                adverts.map((advert) =>
+                                    <CourseCard
+                                        key={advert.id}
+                                        advert={advert}
+                                    />
+                                )
+                            }
+                        </List >
+                    )
+            }        
+        </>
     );
 };
+
+
+CoursesList.propTypes = {
+    isVisible: PropTypes.bool,
+    adverts: PropTypes.array,
+}
+
 
 export default CoursesList;

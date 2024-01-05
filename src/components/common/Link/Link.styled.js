@@ -11,18 +11,22 @@ export const StyledLink = styled(NavLink)`
   cursor: pointer;
   text-decoration: none;
   color: ${(props) => props.theme.colors.white};
-  &:hover {
-    text-decoration-line: underline;
-  }
-  &.active {
+
+  &:hover,
+  &:focus {
     text-decoration: underline;
+  }  
+
+  &.active {
     font-weight: 700;
   }
+
   @media (min-width: ${(props) => props.theme.sizes.laptopLarge}) {
     font-size: 18px;
     color: ${(props) => props.theme.colors.primaryText};
   }
 `;
+
 export const StyledButtonLink = styled(NavLink)`
   font-family: Montserrat;
   display: inline-flex;
@@ -38,9 +42,7 @@ export const StyledButtonLink = styled(NavLink)`
   transition: all 0.2s ease-in-out;
   letter-spacing: 0px;
   text-transform: uppercase;
-  &:hover {
-    text-decoration-line: none;
-  }
+
   @media (min-width: ${(props) => props.theme.sizes.desk}) {
     min-width: 200px;
   }
@@ -53,4 +55,8 @@ export const StyledButtonLink = styled(NavLink)`
       color: ${(props) => props.theme.colors.P5};
     }
   } */
+
+  &:hover {
+    text-decoration-line: underline;
+  }
 `;

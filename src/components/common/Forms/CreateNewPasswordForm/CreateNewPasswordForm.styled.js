@@ -73,7 +73,12 @@ export const Label = styled.label`
 
 export const Input = styled(Field)`
     height: 48px;
-    border: 1px solid ${props => props.theme.colors.disabled};
+    border: 1px solid ${(props) => {
+        if (props.border) {
+            return props.theme.colors.error;
+        }
+        return props.theme.colors.disabled;
+    }};
     border-radius: 6px;
     padding-left: 16px;
     font-size: 18px;

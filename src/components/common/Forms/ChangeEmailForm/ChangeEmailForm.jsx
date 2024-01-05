@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { changeEmailScheme } from '../../../../shared';
+import { useAuthStore } from '../../../../store/auth';
 import { FormTitle } from '../FormTitle';
-import { Icon, Button, AccentText, Message } from '../../../common';
+import {
+    Icon,
+    Button,
+    AccentText,
+    Message
+} from '../../../common';
 import {
     Section,
     ChangeLoginFormContainer,
@@ -13,21 +19,10 @@ import {
     Error,
     InputIconShow
 } from './ChangeEmailForm.styled';
-import { FORMS_VALIDATION } from '../../../../shared';
-
-
-
-const userSchema = Yup.object().shape({
-    newEmail: Yup.string().required('Email is required').email('Email is invalid'),
-    currentPassword: Yup.string()
-        .min(FORMS_VALIDATION.minPassword, 'Password mast be at least 6 characters')
-        .max(FORMS_VALIDATION.maxPassword, 'Password can not have more then 16 characters')
-        .required('Password is required'),
-});
 
 
 const initialValues = {
-    newEmail: '',
+    email: '',
     currentPassword: '',
 };
 
@@ -35,11 +30,15 @@ const initialValues = {
 export const ChangeEmailForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+    const { user, updateUserData } = useAuthStore();
+    const userEmail = user.email;
 
-    const handleSubmit = ({ newEmail, currentPassword }, { resetForm }) => {
-        console.log('New Email:', newEmail);
-        console.log('Current Password:', currentPassword);
+    const handleSubmit = ({email, currentPassword}, { resetForm }) => {
+        const dataToUpdate = {
+            email,
+        };
 
+        updateUserData(dataToUpdate, currentPassword);
         resetForm();
     };
 
@@ -54,27 +53,35 @@ export const ChangeEmailForm = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={userSchema}
+                validationSchema={changeEmailScheme}
             >
-                {({ errors, touched, values, handleChange, handleBlur, isSubmitting }) => (
+                {({
+                    errors,
+                    touched,
+                    values,
+                    handleChange,
+                    handleBlur,
+                    isSubmitting
+                }) => (
                     <ChangeLoginFormContainer>
                         <FormTitle>Change your email</FormTitle>
                         <FormDescr>
-                            <Message>Fill in the form to change the email for account:</Message> <AccentText size={20}>a.salute@gmail.com</AccentText>
+                            <Message>Fill in the form to change the email for account:</Message> <AccentText size={20}>{ userEmail }</AccentText>
                         </FormDescr>
                         <FormBox>
                             <InputBox>
-                                <label>New email</label>
+                                <label htmlFor='email'>New email</label>
                                 <Input
                                     type='text'
-                                    name='newEmail'
-                                    value={values.newEmail}
+                                    id='email'
+                                    name='email'
+                                    value={values.email}
                                     placeholder='Enter new email'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    border={errors.newEmail && touched.newEmail && '1px solid red'}
+                                    border={errors.email && touched.email}
                                 />
-                                <Error name='newEmail' component='div' />
+                                <Error name='email' component='div' />
                             </InputBox>
 
                             <InputBox>
@@ -86,22 +93,17 @@ export const ChangeEmailForm = () => {
                                     placeholder='Enter your password'
                                     onBlur={handleBlur}
                                     error={errors.currentPassword || passwordError}
-                                    border={errors.currentPassword && touched.currentPassword && '1px solid red'}
+                                    border={errors.currentPassword && touched.currentPassword}
                                 />
                                 <InputIconShow onClick={handleTogglePassword}>
-                                    {
-                                        showPassword
-                                            ? <Icon
-                                                name='eye'
-                                                size={24}
-                                                color={'#EEE'}
-                                            />
-                                            : <Icon
-                                                name='hidden'
-                                                size={24}
-                                                color={'#EEE'}
-                                            />
-                                    }
+                                    <Icon
+                                        name={showPassword
+                                            ? 'eye'
+                                            : 'hidden'
+                                        }
+                                        size={24}
+                                        color={'#EEEEEE'}
+                                    />
                                 </InputIconShow>
                                 <Error name='currentPassword' component='div' />
                             </InputBox>

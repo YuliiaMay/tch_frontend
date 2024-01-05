@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types';
-import { Button } from "../../../common";
-import FiltersList from "../FiltersList/FiltersList";
+import { Button } from '../../../common';
+import FiltersList from '../FiltersList/FiltersList';
 import {
     Section
-} from "./FiltersContainer.styled";
+} from './FiltersContainer.styled';
 
 
-const FiltersContainer = ({ onClick }) => {
-    const isDescktopScreenSize = window.matchMedia('(min-width: 1440px)').matches;
-
+const FiltersContainer = ({ onClick, isVisible }) => {
     return (
-        <Section $desktop={isDescktopScreenSize}>
+        <Section $isVisible={isVisible}>
             <FiltersList />
             <Button
-                variant="tertiary"
-                size="standard"
+                type='submit'
+                variant='tertiary'
+                size='standard'
                 onClick={onClick}
                 >Apply filtering
             </Button>                
@@ -24,6 +23,7 @@ const FiltersContainer = ({ onClick }) => {
 
 FiltersContainer.propTypes = {
     onClick: PropTypes.func,
+    isVisible: PropTypes.bool,
 };
 
 export default FiltersContainer;

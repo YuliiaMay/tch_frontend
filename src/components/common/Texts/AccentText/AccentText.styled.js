@@ -7,5 +7,5 @@ export const StyledAccentText = styled.span`
     font-size: ${props => `${props.$size}px`}; 
     line-height: 120%;
     color: ${props => props.theme.colors.primaryText}; 
-    margin-bottom: 100px;
+    margin-bottom: ${props => `${props.$indent}px`}; 
 `;

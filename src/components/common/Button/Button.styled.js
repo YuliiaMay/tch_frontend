@@ -199,7 +199,7 @@ export const StyledButton = styled.button`
 `;
 
 StyledButton.propTypes = {
-  variant: PropTypes.oneOf(["primary", "secondary"]),
+  variant: PropTypes.oneOf(["primary", "secondary", 'tertiary']),
   size: PropTypes.oneOf(["standard", "fluid", "filter"]),
 };
 

@@ -19,11 +19,11 @@ export const ExternalAuth = () => {
             </Separator>
 
             <AuthBtns>
-                <AuthLink href="https://dev-backend-b4vo.onrender.com/api/auth/login-google" >
+                <AuthLink href="https://tudor-match.fly.dev/api/auth/google" >
                     <Icon name="google" size={18} />
                     Continue with Google
                 </AuthLink>
-                <AuthLink>
+                <AuthLink href="https://tudor-match.fly.dev/api/auth/facebook">
                     <Icon name="facebook" size={18} />
                     <span>Continue with Facebook</span>
                 </AuthLink>

@@ -1,86 +1,80 @@
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Formik, Form, Field } from 'formik';
+import { registerScheme } from '../../../../shared';
+import { useAuthStore } from '../../../../store/auth';
+import {
+    Button,
+    ExternalAuth,
+    FormTitle,
+    Icon,
+} from '../../../common';
 import {
     Section,
     RegisterFormContainer,
+    UnauthorizedMessage,
     LoginLink,
     LoginLinkBox,
     InputBox,
     Input,
     Error,
     CheckboxContainer,
+    Checkbox,
     ConfirmationText,
     PolicyLink,
-    InputIconShow
-} from "./RegisterForm.styled";
-import { Button, ExternalAuth, FormTitle } from "../../../common";
-import { Icon } from "../../Icon";
-import { FORMS_VALIDATION } from "../../../../shared";
-import { useAuthStore } from "../../../../store/auth";
-
-
-const userSchema = Yup.object().shape({
-    name: Yup.string()
-        .min(FORMS_VALIDATION.minName, "Name must have at least 2 characters")
-        .max(FORMS_VALIDATION.maxName, "Name can not have more then 16 characters")
-        .required("Name is required"),
-    email: Yup.string().required("Email is required").email("Email is invalid"),
-    password: Yup.string()
-        .min(FORMS_VALIDATION.minPassword, "Password must be at least 6 characters")
-        .max(FORMS_VALIDATION.maxPassword, "Password can not have more then 16 characters")
-        .required("Password is required"),
-    confirmPassword: Yup.string()
-        .required("Conformation is required")
-        .oneOf([Yup.ref("password"), null], "Passwords must match"),
-    confirmation: Yup.bool().oneOf([true], "Field must be checked")
-});
+    InputIconShow,
+} from './RegisterForm.styled';
 
 
 const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    confirmation: false
 };
-
 
 export const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [passwordError, setPasswordError] = useState("");
+    const [passwordError, setPasswordError] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-
-    const register = useAuthStore((state) => state.register);
+    const [isError, setIsError] = useState(false);
+    const { register } = useAuthStore();
     const navigate = useNavigate();
 
     const handleSubmit = async (values, { resetForm }) => {
-        if (isChecked) {
-            await register(values);
-
+        try {
+            if (isChecked) {
+                await register(values);
+                resetForm();
+                setIsChecked(false);
+                handleNavigateToLogin();
+            }            
+        } catch (error) {
+            setIsError(true);
             resetForm();
             setIsChecked(false);
-
-            handleNavigateToLogin();
+            throw error;
         }
     };
 
     const handleTogglePassword = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
-        setPasswordError("");
+        setPasswordError('');
     };
 
     const handleToggleConfirmPassword = () => {
         setShowConfirmPassword(
             (prevShowConfirmPassword) => !prevShowConfirmPassword
         );
-        setConfirmPasswordError("");
+        setConfirmPasswordError('');
     };
 
     const handleToggleCheck = () => {
         setIsChecked(!isChecked);
+        return isChecked;
     };
 
     const handleNavigateToLogin = () => {
@@ -92,7 +86,7 @@ export const RegisterForm = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
-                validationSchema={userSchema}
+                validationSchema={registerScheme}
             >
                 {({
                     errors,
@@ -104,110 +98,135 @@ export const RegisterForm = () => {
                 }) => (
                     <RegisterFormContainer>
                         <FormTitle>Sign up</FormTitle>
+
+                        {
+                            isError && <UnauthorizedMessage>Fail. Try again!</UnauthorizedMessage>
+                        }
+
                         <LoginLinkBox>
                             Already have an account?
-                            <LoginLink to="/login">Log in</LoginLink>
+                            <LoginLink to='/login'>Log in</LoginLink>
                         </LoginLinkBox>
                         <Form>
                             <InputBox>
-                                <label>Name</label>
+                                <label htmlFor='name'>Name</label>
                                 <Input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter your name"
+                                    id='name'
+                                    type='text'
+                                    name='name'
+                                    placeholder='Enter your name'
                                     value={values.name}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    border={errors.name && touched.name && "1px solid red"}
+                                    border={touched.name && errors.name}
                                 />
-                                <Error name="name" component="div" />
+                                <Error name='name' component='div' />
                             </InputBox>
 
 
                             <InputBox>
-                                <label>Email</label>
+                                <label htmlFor='email'>Email</label>
                                 <Input
-                                    type="text"
-                                    name="email"
+                                    id='email'
+                                    type='email'
+                                    name='email'
                                     value={values.email}
-                                    placeholder="Enter email"
+                                    placeholder='Enter email'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    border={errors.email && touched.email && "1px solid red"}
+                                    border={errors.email && touched.email}
                                 />
-                                <Error name="email" component="div" />
+                                <Error name='email' component='div' />
                             </InputBox>
 
 
                             <InputBox>
-                                <label>Password</label>
+                                <label htmlFor='password'>Password</label>
                                 <Input
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
+                                    id='password'
+                                    type={showPassword ? 'text' : 'password'}
+                                    name='password'
                                     value={values.password}
-                                    placeholder="Password"
+                                    placeholder='Password'
                                     onBlur={handleBlur}
                                     error={errors.password || passwordError}
-                                    border={errors.password && touched.password && "1px solid red"}
+                                    border={errors.password && touched.password}
                                 />
                                 <InputIconShow onClick={handleTogglePassword}>
-                                    {
-                                        showPassword
-                                            ? <Icon name="eye" size={24} color={"#EEEEEE"} />
-                                            : <Icon name="hidden" size={24} color={"#EEEEEE"} />
-                                    }
+                                    <Icon
+                                        name={showPassword
+                                            ? 'eye'
+                                            : 'hidden'
+                                        }
+                                        size={24}
+                                        color={'#EEEEEE'}
+                                    />
                                 </InputIconShow>
-                                <Error name="password" component="div" />
+                                <Error name='password' component='div' />
                             </InputBox>
                             
 
                             <InputBox>
-                                <label>Confirm password</label>
+                                <label htmlFor='confirmPassword'>Confirm password</label>
                                 <Input
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    name="confirmPassword"
+                                    id='confirmPassword'
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    name='confirmPassword'
                                     value={values.confirmPassword}
-                                    placeholder="Confirm password"
+                                    placeholder='Confirm password'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    border={
-                                        errors.confirmPassword &&
-                                        touched.confirmPassword &&
-                                        "1px solid red"
-                                    }
+                                    border={errors.confirmPassword && touched.confirmPassword}
                                     error={errors.confirmPassword || confirmPasswordError}
                                 />
                                 <InputIconShow onClick={handleToggleConfirmPassword}>
-                                    {
-                                        showConfirmPassword
-                                            ? <Icon name="eye" size={24} color={"#EEEEEE"} />
-                                            : <Icon name="hidden" size={24} color={"#EEEEEE"} />
-                                    }
+                                    <Icon
+                                        name={showConfirmPassword
+                                            ? 'eye'
+                                            : 'hidden'
+                                        }
+                                        size={24}
+                                        color={'#EEEEEE'}
+                                    />
                                 </InputIconShow>
-                                <Error name="confirmPassword" component="div" />
+                                <Error name='confirmPassword' component='div' />
                             </InputBox>
                             
 
                             <CheckboxContainer>
-                                <div onClick={handleToggleCheck}>
-                                    {
-                                        isChecked
-                                            ? <Icon name="checked" size={24} />
-                                            : <Icon name="unchecked" size={24} />
-                                    }
-                                </div>
-                                <ConfirmationText>
-                                    By checking this box, you are creating an account and you agree to the <PolicyLink target="_blank" to="/conditions">Terms & Conditions</PolicyLink> and <PolicyLink target="_blank" to="/policy">Privacy Policy</PolicyLink>.
-                                </ConfirmationText>
+                                <label htmlFor='confirmation'>
+                                    <Checkbox>
+                                        <Field
+                                            id='confirmation'
+                                            name='confirmation'
+                                            type='checkbox'
+                                            style={{display: 'none'}}
+                                            onClick={handleToggleCheck}
+                                        />
+                                        <div>
+                                            <Icon
+                                                name={isChecked
+                                                    ? 'checked'
+                                                    : 'unchecked'
+                                                }
+                                                size={24}
+                                            />
+                                        </div>
+                                        <ConfirmationText>
+                                            By checking this box, you are creating an account and you agree to the <PolicyLink target='_blank' to='/conditions'>Terms & Conditions</PolicyLink> and <PolicyLink target='_blank' to='/policy'>Privacy Policy</PolicyLink>.
+                                        </ConfirmationText>
+                                    </Checkbox>
+                                    <Error name='confirmation' component='div' />
+                                </label>
                             </CheckboxContainer>
 
                             <Button
-                                size="fluid"
-                                type="submit"
+                                size='fluid'
+                                type='submit'
                                 isDisabled={isSubmitting}
                             >
                                 Sign up
-                            </Button>       
+                            </Button>
                             <ExternalAuth/>
                         </Form>
                     </RegisterFormContainer>

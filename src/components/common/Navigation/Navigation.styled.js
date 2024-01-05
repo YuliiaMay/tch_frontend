@@ -2,15 +2,12 @@ import styled from "styled-components";
 import { ButtonLink } from "../Link";
 
 export const StyledNavContainer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 410px;
-  @media (min-width: ${(props) => props.theme.sizes.desk}) {
-    grid-template-columns: 1fr 410px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 `;
+
 export const StyledNav = styled.nav`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

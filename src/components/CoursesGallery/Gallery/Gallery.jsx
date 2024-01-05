@@ -4,46 +4,46 @@ import FiltersBtn from "../FiltersBtn/FiltersBtn";
 import FiltersContainer from "../Filters/FiltersContainer/FiltersContainer";
 import {
     Section,
-    Wrapper
+    SortWrapper,
+    MainContentWrapper,
 } from "./Gallery.styled";
+import PropTypes from 'prop-types';
 
 
-const Gallery = () => {
-    const isDescktopScreenSize = window.matchMedia('(min-width: 1440px)').matches;
+const Gallery = ({adverts}) => {
     const [isFiltersShown, setIsFiltersShown] = useState(false);
 
-
+    
     const handleToggleFiltersList = () => {
         setIsFiltersShown(!isFiltersShown);
     };
-
     
+
     return (
         <Section>
-            {
-                isDescktopScreenSize
-                    ? (
-                        <>
-                            < FiltersContainer /> 
-                            < CoursesList />
-                        </>
-                    )
-                    : (
-                        <>
-                            <Wrapper>
-                                < FiltersBtn onClick={handleToggleFiltersList} />
-                            </Wrapper>
-                            
-                            {
-                                isFiltersShown 
-                                    ? < FiltersContainer onClick={handleToggleFiltersList} />
-                                    : < CoursesList />  
-                            }
-                        </>
-                    )
-            }
+            <SortWrapper>
+                < FiltersBtn onClick={handleToggleFiltersList} />
+            </SortWrapper>
+
+            <MainContentWrapper>
+                < FiltersContainer
+                            isVisible={isFiltersShown}
+                            onClick={handleToggleFiltersList}
+                />
+                < CoursesList
+                    isVisible={!isFiltersShown}
+                    adverts={adverts}
+                />  
+            </MainContentWrapper>
+
         </Section>
     );
 };
+
+
+Gallery.propTypes = {
+    adverts: PropTypes.array,
+};
+
 
 export default Gallery;

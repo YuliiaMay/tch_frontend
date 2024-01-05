@@ -4,11 +4,11 @@ import { Field, ErrorMessage, Form } from 'formik';
 
 
 export const Section = styled.div`
-    padding-top: 144px;
+    padding-top: 150px;
     padding-bottom: 169px;
 
     @media screen and (min-width: 768px) {
-        padding-top: 232px;
+        padding-top: 150px;
         padding-bottom: 232px; 
     };    
 
@@ -24,6 +24,19 @@ export const LoginFormContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 408px;
+    
+    @media screen and (min-width: 768px) {
+        max-width: 358px;  
+    };    
+`;
+
+export const UnauthorizedMessage = styled.p`
+    color: ${({theme}) => theme.colors.error};
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
 `;
 
 export const LoginLinkBox = styled.p`
@@ -59,7 +72,6 @@ export const InputBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    min-width: 358px;
 
     &:first-child {
         margin-bottom: 24px;
@@ -68,7 +80,12 @@ export const InputBox = styled.div`
 
 export const Input = styled(Field)`
     height: 48px;
-    border: 1px solid ${props => props.theme.colors.disabled};
+    border: 1px solid ${(props) => {
+        if (props.border) {
+            return props.theme.colors.error;
+        }
+        return props.theme.colors.disabled;
+    }};
     border-radius: 6px; 
     padding-left: 16px;
     font-size: 18px;

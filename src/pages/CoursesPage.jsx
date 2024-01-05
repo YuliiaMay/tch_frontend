@@ -1,29 +1,34 @@
-import { Gallery } from "../components/CoursesGallery/Gallery";
-import { Button } from "../components/common";
-import { useAuthStore } from "../store/auth";
+import { useEffect, useState } from 'react';
+import { Gallery } from '../components/CoursesGallery/Gallery';
+import { fetchAllAdverts } from '../services';
 
 
 const CoursesPage = () => {
-    const isAuth = useAuthStore((state) => state.isAuth);
-    const logout = useAuthStore((state) => state.logout);
-  
+    const [adverts, setAdverts] = useState(null);
+    
+    
+    useEffect(() => {
+        getAdverts();
+    }, []);
+
+
+    async function getAdverts() {
+        try {
+            const data = await fetchAllAdverts();
+            setAdverts(data);
+            
+            return data;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }    
+
+    
     return (
         <>
             {
-                isAuth &&
-                    <div style={{  marginTop: '50px', display: 'flex', gap: '16px', alignItems: 'center' }}>
-                        <h1 style={{ fontSize: '50px' }}>You are Logged In</h1>
-                        <Button
-                            variant='secondary'
-                            size='standard'
-                            type='button'
-                            onClick={logout}
-                        >
-                            Logout
-                        </Button>
-                    </div>
+                adverts && <Gallery adverts={adverts} />
             }
-            <Gallery />
         </>
         
     );

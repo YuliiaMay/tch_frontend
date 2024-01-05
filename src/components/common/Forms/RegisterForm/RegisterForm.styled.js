@@ -7,12 +7,12 @@ export const Section = styled.div`
     padding-top: 144px;
     padding-bottom: 56px; 
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: ${({theme}) => theme.sizes.tablet}) {
         padding-top: 123px;
         padding-bottom: 124px; 
     };    
 
-    @media screen and (min-width: 1440px) {
+    @media screen and (min-width: ${({theme}) => theme.sizes.desk}) {
         padding-top: 61px;
         padding-bottom: 62px; 
     };  
@@ -26,9 +26,16 @@ export const RegisterFormContainer = styled.div`
     align-items: center;
     width: 408px;
     
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: ${({theme}) => theme.sizes.tablet}) {
         max-width: 358px;  
     };
+`;
+
+export const UnauthorizedMessage = styled.p`
+    color: ${({theme}) => theme.colors.error};
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
 `;
 
 export const LoginLinkBox = styled.div`
@@ -38,14 +45,14 @@ export const LoginLinkBox = styled.div`
     gap: 4px;
     margin-top: 34px;
     margin-bottom: 24px;
-    color: ${props => props.theme.colors.primaryText};
+    color: ${({theme}) => theme.colors.primaryText};
     font-weight: 400;
     font-size: 20px;
     line-height: 120%    
 `;
 
 export const LoginLink = styled(Link)`
-    color: ${props => props.theme.colors.link};
+    color: ${({theme}) => theme.colors.link};
 `;
 
 export const InputBox = styled.div`
@@ -59,22 +66,30 @@ export const InputBox = styled.div`
 
 export const Input = styled(Field)`
     height: 48px;
-    border: 1px solid ${props => props.theme.colors.disabled};
+    border: 1px solid ${(props) => {
+        if (props.border) {
+            return props.theme.colors.error;
+        }
+        return props.theme.colors.disabled;
+    }};
     border-radius: 6px; 
     padding-left: 16px;
     font-size: 18px;
 `;
 
 export const Error = styled(ErrorMessage)`
-    color: ${props => props.theme.colors.error}
+    color: ${({theme}) => theme.colors.error}
 `;
 
 export const CheckboxContainer = styled.div`
+    margin-bottom: 34px;
+`;
+
+export const Checkbox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
-    margin-bottom: 34px;
 `;
 
 export const ConfirmationText = styled.p`
@@ -85,7 +100,7 @@ export const ConfirmationText = styled.p`
 `;
 
 export const PolicyLink = styled(Link)`
-    color: ${props => props.theme.colors.link};
+    color: ${({theme}) => theme.colors.link};
     text-decoration: underline;
 `;
 

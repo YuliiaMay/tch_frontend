@@ -1,0 +1,94 @@
+[
+    {
+        "id": "008",
+        "title": "Duration of a lesson",
+        "options": [
+            {
+                "id": 1001,
+                "option_name": "Up to 1 hour"
+            },
+            {
+                "id": 1002,
+                "option_name": "Up to 2 hours"
+            },
+            {
+                "id": 1003,
+                "option_name": "Up to 3 hours"
+            }
+        ]
+    },
+    {
+        "id": "010",
+        "title": "Lesson format",
+        "options": [
+            {
+                "id": 2001,
+                "option_name": "Online"
+            },
+            {
+                "id": 2002,
+                "option_name": "Offline"
+            }
+        ]
+    },
+    {
+        "id": "011",
+        "title": "Teacher’s experience",
+        "options": [
+            {
+                "id": 3001,
+                "option_name": "Up to 1 year"
+            },
+            {
+                "id": 3002,
+                "option_name": "1-2 years"
+            },
+            {
+                "id": 3003,
+                "option_name": "2-5 years"
+            },
+            {
+                "id": 3004,
+                "option_name": "2-5 years"
+            }
+        ]
+    },
+    {
+        "id": "012",
+        "title": "Lesson language",
+        "options": [
+            {
+                "id": 4001,
+                "option_name": "English"
+            },
+            {
+                "id": 4002,
+                "option_name": "Arabic"
+            },
+            {
+                "id": 4003,
+                "option_name": "French"
+            },
+            {
+                "id": 4004,
+                "option_name": "Spanish"
+            },
+            {
+                "id": 4005,
+                "option_name": "Chinese"
+            },
+            {
+                "id": 4006,
+                "option_name": "Hindi"
+            },
+            {
+                "id": 4007,
+                "option_name": "German"
+            },
+            {
+                "id": 4008,
+                "option_name": "Other languages"
+            }
+        ]
+    }
+]

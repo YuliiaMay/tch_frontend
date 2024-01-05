@@ -34,7 +34,7 @@ Button.propTypes = {
     onClick: PropTypes.func,
     isDisabled: PropTypes.bool,
     iconPosition: StyledIcon.propTypes.position,
-    type: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['submit', 'button']).isRequired,
     icon: PropTypes.string,
 };
 

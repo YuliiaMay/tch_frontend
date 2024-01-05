@@ -1,94 +1,137 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid/non-secure';
-import { Icon } from '../../../common';
 import { CategoryItem } from '../CategoryItem';
 import PropTypes from 'prop-types';
-
 import {
     ItemWrapper,
     SectionHeader,
     Title,
-    CategoriesList
+    StyledIcon,
+    CategoriesList,
+    PriceInputsContainer,
+    PriceInput,
+    Line,
+    RangeFieldContainer,
+    StyledRangeSlider,
 } from './FiltersListSection.styled';
 
 
-const FiltersListSection = ({ title, minPrice, maxPrice, categories }) => {
-    const isDescktopScreenSize = window.matchMedia('(min-width: 1440px)').matches;
+const FiltersListSection = ({ title, subcategories, options }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const id = nanoid();
+    const [minPrice, setMinPrice] = useState(0);
+    const [maxPrice, setMaxPrice] = useState(100);
+
 
     const handleToggleItemContainer = () => {
         setIsOpen(!isOpen);
     };
 
+
+    const handleChangePrice = ({ target: { name, value } }) => {
+        switch (name) {
+            case 'minPrice':
+                setMinPrice(value);
+                break;
+            case 'maxPrice':
+                setMaxPrice(value);
+                break;    
+        
+            default:
+                break;
+        }
+    }
+
+    const handleChangePriceRange = (value) => {
+        setMinPrice(value[0]);
+        setMaxPrice(value[1]);
+    }
+
+
     return (
         <ItemWrapper>
-            <SectionHeader>
+            <SectionHeader onClick={handleToggleItemContainer}>
                 <Title>{title}</Title>
-                <div onClick={handleToggleItemContainer}>
-                    {
-                        (!isOpen && !isDescktopScreenSize) &&(
-                                <Icon
-                                    name='plus'
-                                    size={24}
-                                    color='#FFFFFF'
-                                />                                            
-                            )
-                    }
-                    {
-                        (isOpen && !isDescktopScreenSize) &&(
-                                <Icon
-                                    name='minus'
-                                    size={24}
-                                    color='#FFFFFF'
-                                />                                            
-                            )
-                    }
-                    {
-                        (!isOpen && isDescktopScreenSize) &&(
-                                <Icon
-                                    name='plus'
-                                    size={24}
-                                    color='#000000'
-                                />                                            
-                            )
-                    }
-                    {
-                        (isOpen && isDescktopScreenSize) &&(
-                                <Icon
-                                    name='minus'
-                                    size={24}
-                                    color='#000000'
-                                />                                            
-                            )
-                    }                    
+                <div>
+                    <StyledIcon name={isOpen ? 'minus' : 'plus'} />                 
                 </div>
             </SectionHeader>
 
             {
-                isOpen &&
-                    <CategoriesList>
+                isOpen && (
+                    <>
                         {
-                            categories
-                                ? categories.map((category) => (
-                                    <CategoryItem
-                                        key={id}
-                                        category={category}
-                                    />                             
-                                ))
-                                : <div>sort prise</div>    
-                        }
-                    </CategoriesList>
+                            <CategoriesList>
+                                {
+                                    subcategories && (
+                                        subcategories.map(({ id, name }) => (
+                                            <CategoryItem
+                                                key={id}
+                                                category={name}
+                                            />                             
+                                        ))
+                                    )
+                                }
+                                {
+                                    options && (
+                                        options.map(({ id, option_name }) => (
+                                            <CategoryItem
+                                                key={id}
+                                                category={option_name}
+                                            />                             
+                                        ))
+                                    )
+                                }
+                                {
+                                    title === 'Price for a lesson' && (
+                                        <RangeFieldContainer>
+                                            <PriceInputsContainer>
+                                                    <PriceInput
+                                                        name='minPrice'
+                                                        type='number'
+                                                        value={minPrice}
+                                                        onChange={handleChangePrice}
+                                                        min={1}
+                                                        max={100}
+                                                    />
+
+                                                    <Line />
+                                                    
+                                                    <PriceInput
+                                                    
+                                                        name='maxPrice'
+                                                        type='number'
+                                                        value={maxPrice}
+                                                        onChange={handleChangePrice}
+                                                        min={0}
+                                                        max={100}
+                                                    />
+                                            </PriceInputsContainer>
+
+                                            <StyledRangeSlider
+                                                id="range-slider-gradient"
+                                                className="range-slider"
+                                                step={1}
+                                                min={0}
+                                                max={100}
+                                                onInput={handleChangePriceRange}                                                
+                                            />
+                                        </RangeFieldContainer>
+                                    )
+                                }
+                            </CategoriesList>                        
+                        }                    
+                    </>
+                )
             }
         </ItemWrapper>
     );
 };
 
+
 FiltersListSection.propTypes = {
     title: PropTypes.string.isRequired,
-    minPrice: PropTypes.number.isRequired,
-    maxPrice: PropTypes.number.isRequired,
-    categories: PropTypes.array.isRequired
+    subcategories: PropTypes.array,
+    options: PropTypes.array,
 };
+
 
 export default FiltersListSection;

@@ -14,7 +14,12 @@ const ICON_TYPES = {
   info: 'info',
   filter: 'filter',
   plus: 'plus',
-  minus: 'minus'
+  minus: 'minus',
+  logout: 'logout',
+  search: 'search',
+  category: 'category',
+  education: 'education',
+  contacts: 'contacts',
 };
 
 export default ICON_TYPES;

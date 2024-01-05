@@ -9,3 +9,4 @@ export * from "./Icon";
 export * from "./Texts";
 export * from "./Button";
 export * from "./Burger";
+export * from "./SearchBar";

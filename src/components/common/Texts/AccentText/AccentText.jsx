@@ -2,7 +2,7 @@ import { StyledAccentText } from './AccentText.styled';
 import PropTypes from 'prop-types';
 
 
-export const AccentText = ({ children, indent, size = 24 }) => {
+export const AccentText = ({ children, indent = 100, size = 24 }) => {
     return (
         <StyledAccentText
             $indent={indent}

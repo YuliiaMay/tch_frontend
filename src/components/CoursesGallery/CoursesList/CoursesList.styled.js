@@ -1,19 +1,21 @@
 import styled from 'styled-components';
 
-export const List = styled.ul`
-    background-color: ${props => props.theme.colors.card};
-    border-top: 1px solid ${props => props.theme.colors.primaryText};
-    border-left: 1px solid ${props => props.theme.colors.primaryText};
-    border-right: 1px solid ${props => props.theme.colors.primaryText};
+export const List = styled.div`
+    display: ${({ $isVisible }) => $isVisible ? 'block' : 'none'};
+    background-color: ${({theme: {colors}}) => colors.card};
+    border-top: 1px solid ${({theme: {colors}}) => colors.primaryText};
+    border-left: 1px solid ${({theme: {colors}}) => colors.primaryText};
+    border-right: 1px solid ${({theme: {colors}}) => colors.primaryText};
     border-radius: 8px 8px 0px 0px;
     padding-top: 15px;
     width: 408px;
 
-    @media screen and (min-width: ${props => props.theme.sizes.tablet}) {
+    @media screen and (min-width: ${({theme: {sizes}}) => sizes.tablet}) {
         width: 736px;
     }
 
-    @media screen and (min-width: ${props => props.theme.sizes.desk}) {
+    @media screen and (min-width: ${({ theme: {sizes} }) => sizes.desk}) {
+        display: block;
         width: 860px;
     }    
 `;

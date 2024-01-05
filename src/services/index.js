@@ -1,2 +1,2 @@
-export * from "./authAPI";
+export * from "./api";
 export * from "./localStorage";

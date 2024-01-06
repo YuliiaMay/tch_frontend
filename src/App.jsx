@@ -56,6 +56,8 @@ const App = () => {
         case '/create-password/': 
           navigate('/create-password');
       }
+
+      return;
     }
   }, [setToken, navigate, pathname]);
 

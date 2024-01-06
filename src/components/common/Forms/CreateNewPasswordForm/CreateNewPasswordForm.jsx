@@ -13,9 +13,11 @@ import {
     Label,
     Input,
     Error,
-    InputIconShow
+    InputIconShow,
+    ErrorNotification
 } from './CreateNewPasswordForm.styled';
 import { fetchCreateNewPassword } from '../../../../services';
+import { useNavigate } from 'react-router-dom';
 
 
 const initialValues = {
@@ -25,22 +27,32 @@ const initialValues = {
 
 
 export const CreateNewPasswordForm = () => {
+    const [isError, setIsError] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
-    
     const { user } = useAuthStore();
     const userEmail = user.email;
+    const navigate = useNavigate();
+    
 
-
-    const handleSubmit = ({password}, { resetForm }) => {
+    const handleSubmit = async({password}, { resetForm }) => {
         const newPassworsPayload = {
             password,
         };
         
-        fetchCreateNewPassword(newPassworsPayload);
-        resetForm();
+        try {
+            await fetchCreateNewPassword(newPassworsPayload);
+            resetForm();
+            
+            navigate(
+                '/success',
+                { state: '/create-password' }
+            );
+        } catch (error) {
+            setIsError(true);
+        }
     };
 
     const handleTogglePassword = () => {
@@ -66,6 +78,9 @@ export const CreateNewPasswordForm = () => {
                 {({ errors, touched, values, handleChange, handleBlur, isSubmitting }) => (
                     <CreatePasswordFormContainer>
                         <FormTitle>Create new password</FormTitle>
+                        {
+                            isError && <ErrorNotification>Fail! Try it again.</ErrorNotification>
+                        }                        
                         <MessageWrapper>
                             <Message indentBottom={24} position='center'>
                                 Enter a new password for account: {userEmail}

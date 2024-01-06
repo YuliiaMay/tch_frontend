@@ -8,11 +8,28 @@ import { Section, SuccessWrapper } from './Congratulations.styled';
 export const Congratulations = () => {
     const location = useLocation();
     const backMainPage = useRef(location.state?.from ?? '/');
-    
+    console.log(location.state);
+    let buttonText = 'Back to main page';
+
+
     const setMessageField = () => {
-        const message = location.state === '/reset-password'
-            ? 'We sent the letter to your mail. Check and confirm the reset of your password!'
-            : 'Your new email has been set';
+        let message;
+        
+        switch (location.state) {
+            case '/reset-password':
+                message = 'We sent the letter to your mail. Check and confirm the reset of your password!';
+                break;
+            case '/change-email':
+                message = 'Your new email has been set';
+                break;
+            case '/create-password':
+                message = 'New password has been created!';
+                buttonText = 'Go to Login';
+                break;            
+            default:
+                break;
+        }
+        
         return message;
     };
 
@@ -38,7 +55,13 @@ export const Congratulations = () => {
                 </Message>
 
                 <Button size='fluid' type='button'>
-                    <Link to={backMainPage.current}>Back to main page</Link>
+                    <Link to={
+                        location.state === '/create-password' 
+                            ? '/login'
+                            : backMainPage.current
+                    }>
+                        {buttonText}
+                    </Link>
                 </Button>
             </SuccessWrapper>
         </Section>

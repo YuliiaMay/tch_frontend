@@ -10,8 +10,10 @@ import {
     InputBox,
     Label,
     Input,
-    Error
+    Error,
+    ErrorNotification
 } from './ResetPasswordForm.styled';
+import { useState } from 'react';
 
 
 const initialValues = {
@@ -20,15 +22,22 @@ const initialValues = {
 
 
 export const ResetPasswordForm = () => {
+    const [isError, setIsError] = useState(false);
     const { resetPassword } = useAuthStore();
     const navigate = useNavigate();
 
-    const handleSubmit = (values, { resetForm }) => {
-        resetPassword(values);
-        resetForm();
-        handleNavigateToSuccess();
+
+    const handleSubmit = async(values, { resetForm }) => {
+        try {
+            await resetPassword(values);
+            resetForm();
+            handleNavigateToSuccess();
+        } catch (error) {
+            setIsError(true);
+        }
     };
 
+    
     const handleNavigateToSuccess = () => {
         navigate(
             '/success',
@@ -46,6 +55,9 @@ export const ResetPasswordForm = () => {
                 {({ errors, touched, values, handleChange, handleBlur, isSubmitting }) => (
                     <ResetPasswordFormContainer>
                         <FormTitle>Reset password</FormTitle>
+                        {
+                            isError && <ErrorNotification>Failure. Please enter the email address you used to register.</ErrorNotification>
+                        }
                         <Message indentBottom={24} position='center'>
                             We will send you instructions on how to reset your password by email
                         </Message>

@@ -93,3 +93,12 @@ export const InputIconShow = styled.span`
     top: 32px;
     right: 12px;
 `;
+
+export const ErrorNotification = styled.p`
+    color: ${({theme}) => theme.colors.error};
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
+    text-align: center;
+    margin-bottom: 30px;
+`;

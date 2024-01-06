@@ -72,3 +72,13 @@ export const Input = styled(Field)`
 export const Error = styled(ErrorMessage)`
     color: ${({theme}) => theme.colors.error};
 `;
+
+
+export const ErrorNotification = styled.p`
+    color: ${({theme}) => theme.colors.error};
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
+    text-align: center;
+    margin-bottom: 30px;
+`;

@@ -66,19 +66,20 @@ export const fetchRefresh = async () => {
 
 
 /*
- * POST @ /api/auth/password-reset
+ * POST @ /api/auth/reset-password
  * body: { email }
  */
 export const fetchResetPassword = async (values) => {
     try {
         const response = await axios.post(
-            `/api/auth/password-reset`,
+            `/api/auth/reset-password`,
             values
         );
 
         return response.data.data;
     } catch (error) {
         console.log(error.message);
+        throw error;
     }
 }
 

@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { PublicRoute, ProtectedRoute } from './routes';
 import { useEffect } from 'react';
 import { GlobalStyles } from './styles/GlobalStyles.styled';
@@ -28,7 +28,10 @@ import { ActiveAdverts, InReviewAdverts } from './components/MyAdverts';
 const App = () => {
   const { isAuth, setToken, setProfile, token } = useAuthStore();
   const navigate = useNavigate();
-  
+  const location = useLocation();
+  const pathname = location.pathname;
+
+
   useEffect(() => {
     const fetchUserData = async () => {
       await setProfile();
@@ -45,9 +48,16 @@ const App = () => {
     console.log('googleToken', googleToken);
     if (googleToken) {
       setToken(googleToken);
-      navigate('/courses');
+
+      switch (pathname) {
+        case '/courses':
+          navigate('/courses');
+          break;
+        case '/create-password/': 
+          navigate('/create-password');
+      }
     }
-  }, [setToken, navigate]);
+  }, [setToken, navigate, pathname]);
 
 
   return (

@@ -112,13 +112,14 @@ export const useAuthStore = create(
                     await fetchResetPassword(values);
 
                     set(() => ({
-                        loading: false
+                        loading: false,
                     }))
                 } catch (error) {
                     set(() => ({
                         errors: error.response.data.status,
                         loading: false
                     }));
+                    throw error;
                 }
             },
             logout: () => set(() => ({

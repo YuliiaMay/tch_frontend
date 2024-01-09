@@ -89,11 +89,11 @@ export const useAuthStore = create(
                     }
                 }
             },
-            updateUserData: async (updateData, currentPassword) => {
+            updateUserData: async (updateData) => {
                 set(() => ({ loading: true }));
 
                 try {
-                    const response = await fetchUpdateUserData(updateData, currentPassword);
+                    const response = await fetchUpdateUserData(updateData);
                     set(() => ({
                         user: response,
                         loading: false,

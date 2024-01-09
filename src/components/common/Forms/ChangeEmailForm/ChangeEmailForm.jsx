@@ -36,9 +36,10 @@ export const ChangeEmailForm = () => {
     const handleSubmit = ({email, currentPassword}, { resetForm }) => {
         const dataToUpdate = {
             email,
+            currentPassword
         };
 
-        updateUserData(dataToUpdate, currentPassword);
+        updateUserData(dataToUpdate);
         resetForm();
     };
 

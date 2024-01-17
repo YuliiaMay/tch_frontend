@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Formik, ErrorMessage } from 'formik';
 import { Button, Text } from '../../common';
 import { fetchAllCategories, fetchCreateAdvert } from '../../../services';
@@ -55,6 +56,7 @@ const AddAdvertForm = () => {
     const { user } = useAuthStore();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -74,15 +76,37 @@ const AddAdvertForm = () => {
     }
 
 
-    const handleSubmit = (values, { resetForm }) => {
-        fetchCreateAdvert(values);
+    const handleSubmit = (
+        { subcategory, description, email, experience, format, language, mobile_phone, price, telegram, time, title },
+        { resetForm }) => {
+        const newAdvert = {
+            category: subcategory,
+            description,
+            email,
+            experience,
+            format,
+            language,
+            mobile_phone,
+            price,
+            telegram,
+            time: Number(time),
+            title
+        };
+
+        fetchCreateAdvert(newAdvert);
         resetForm();
+        handleNavigateToMyAdverts();
     };
 
 
     const handleCategoryChange = (e) => {
         const data = e.currentTarget.value;
         setSelectedCategory(data || null);
+    };
+
+
+    const handleNavigateToMyAdverts = () => {
+        navigate('/my-advert');
     };
 
 
@@ -135,9 +159,8 @@ const AddAdvertForm = () => {
                                         <Label htmlFor='experience'>Experience</Label>
                                         <ExperienceInput
                                             id='experience'
-                                            type='text'
+                                            type='number'
                                             name='experience'
-                                            placeholder='years / months'
                                             value={values.experience}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
@@ -240,13 +263,13 @@ const AddAdvertForm = () => {
                                         border={touched.time && errors.time}
                                     >
                                         <option value={null}></option>
-                                        <option value='30 min'>30 min</option>
-                                        <option value='45 min'>45 min</option>
-                                        <option value='60 min'>60 min</option>
-                                        <option value='90 min'>90 min</option>
-                                        <option value='120 min'>120 min</option>
-                                        <option value='150 min'>150 min</option>
-                                        <option value='180 min'>180 min</option>
+                                        <option value='30'>30 min</option>
+                                        <option value='45'>45 min</option>
+                                        <option value='60'>60 min</option>
+                                        <option value='90'>90 min</option>
+                                        <option value='120'>120 min</option>
+                                        <option value='150'>150 min</option>
+                                        <option value='180'>180 min</option>
                                     </OptionInput>
                                     <ErrorMessage name='time' component='div' />                                
                                 </OptionInputContainer>
@@ -322,7 +345,7 @@ const AddAdvertForm = () => {
                                     value={values.description}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    maxLength='400'
+                                    maxLength='600'
                                     rows='5'
                                     border={touched.description && errors.description}
                                 />

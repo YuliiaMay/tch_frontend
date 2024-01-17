@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { PublicRoute, ProtectedRoute } from './routes';
 import { useEffect } from 'react';
 import { GlobalStyles } from './styles/GlobalStyles.styled';
@@ -83,12 +83,16 @@ const App = () => {
           />
 
           <Route
-            path='/my-advert'
+            path='/my-advert/active'
             element={
-              <ProtectedRoute
-                component={<MyAdvertPage />}
-                isAllowed={isAuth}                
-              />}          
+              <>
+                <ProtectedRoute
+                  component={<MyAdvertPage/>}
+                  isAllowed={isAuth}                
+                />
+                <Navigate to="/my-advert/active" />              
+              </>
+            }          
           >
             <Route
               path='active'

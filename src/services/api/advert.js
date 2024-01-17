@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TOKEN } from '../../shared';
+import { getDataFromLocalStorage } from '../localStorage';
 
 
 /*
@@ -54,15 +54,16 @@ export const fetchAdvertById = async (advertId) => {
 
 /*
  * POST @ /protected/advertisement-create
- * headers: Authorization: token
+ * headers: Authorization: Bearer token
  * body: { data }
  */
 export const fetchCreateAdvert = async (data) => {
+    const token = getDataFromLocalStorage('auth').state?.token || null;
     try {
         const response = await axios.post(
             `/protected/advertisement-create`,
             data,
-            { headers: {'Authorization': TOKEN} }
+            { headers: {'Authorization': `Bearer ${token}`} }
         );
         return response;
     } catch (error) {
@@ -72,15 +73,17 @@ export const fetchCreateAdvert = async (data) => {
 
 /*
  * DELETE @ /protected/advertisement-delete
- * headers: Authorization: token
+ * headers: Authorization: Bearer token
  * body: { id }
  */
 export const fetchDeleteAdvert = async (data) => {
+    const token = getDataFromLocalStorage('auth').state?.token || null;
+
     try {
         const response = await axios.delete(
             `/protected/advertisement-delete`,
             {
-                headers: { 'Authorization': TOKEN },
+                headers: { 'Authorization': `Bearer ${token}` },
                 data: data
             }
         );
@@ -92,15 +95,17 @@ export const fetchDeleteAdvert = async (data) => {
 
 /*
  * PATCH @ /protected/advertisement-patch
- * headers: Authorization: token
+ * headers: Authorization: Bearer token
  * body: { data }
  */
 export const fetchUpdateAdvert = async (data) => {
+    const token = getDataFromLocalStorage('auth').state?.token || null;
+
     try {
         const response = await axios.patch(
             `/protected/advertisement-patch`,
             data,
-            { headers: {'Authorization': TOKEN} }
+            { headers: {'Authorization': `Bearer ${token}`} }
         );
         return response;
     } catch (error) {
@@ -111,13 +116,15 @@ export const fetchUpdateAdvert = async (data) => {
 
 /*
  * GET @ /protected/advertisement-getmy
- * headers: Authorization: token
+ * headers: Authorization: Bearer token
  */
 export const fetchMyAdverts = async () => {
+    const token = getDataFromLocalStorage('auth').state?.token || null;
+
     try {
         const response = await axios.get(
             `/protected/advertisement-getmy`,
-            { headers: {'Authorization': TOKEN} }
+            { headers: {'Authorization': `Bearer ${token}`} }
         );
 
         return response.data.data;

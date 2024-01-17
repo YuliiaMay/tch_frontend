@@ -3,12 +3,12 @@ import { TOKEN } from '../../shared';
 
 
 /*
- * GET @ /open/categories/getall
+ * GET @ /open/allcategories
  */
 export const fetchAllCategories = async () => {
     try {
         const response = await axios.get(
-            `/open/categories/getall`,
+            `/open/allcategories`,
         );
 
         return response.data;

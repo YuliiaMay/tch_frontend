@@ -11,7 +11,7 @@ export const Section = styled.div`
 
     @media screen and (min-width: ${({ theme: { sizes } }) => sizes.tablet}) {
         min-width: 736px;
-    }    
+    }
 
     @media screen and (min-width: ${({ theme: { sizes } }) => sizes.desk}) {
         min-width: 1240px;
@@ -22,7 +22,7 @@ export const Section = styled.div`
 
     @media screen and (min-width: ${({ theme: { sizes } }) => sizes.large}) {
         max-width: 1320px;
-    }      
+    }
 `;
 
 export const SortWrapper = styled.div`

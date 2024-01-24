@@ -36,6 +36,5 @@ export const MainContentWrapper = styled.div`
 
     @media screen and (min-width: ${({ theme: { sizes } }) => sizes.desk}) {
         display: flex;
-        justify-content: space-between;
     }
 `;

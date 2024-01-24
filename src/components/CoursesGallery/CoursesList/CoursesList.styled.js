@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const GalleryListSection = styled.div`
+    @media screen and (min-width: ${({ theme: {sizes} }) => sizes.desk}) {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }     
+`;
+
 export const List = styled.div`
     display: ${({ $isVisible }) => $isVisible ? 'block' : 'none'};
     background-color: ${({theme: {colors}}) => colors.card};

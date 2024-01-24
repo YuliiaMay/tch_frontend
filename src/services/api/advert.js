@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TOKEN } from '../../shared';
+import { STATUS_CODES, TOKEN } from '../../shared';
 
 
 /*
@@ -31,6 +31,26 @@ export const fetchAllAdverts = async () => {
     } catch (error) {
         console.log(error.message);
         return null;
+    }
+}
+
+
+/*
+ * GET @ /open/advertisements/adv-filter
+ */
+export const fetchFilteredAdverts = async (params) => {
+    try {
+        const response = await axios.post(
+            `/open/advertisements/adv-filter`,
+            params
+        );
+
+        console.log(response);
+        return response.data.data;
+    } catch (error) {
+        console.log(error.response);
+        if (error.response.status === STATUS_CODES.serverError) return [];
+        
     }
 }
 

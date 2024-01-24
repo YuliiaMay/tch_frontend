@@ -10,7 +10,7 @@ import {
 import PropTypes from 'prop-types';
 
 
-const Gallery = ({adverts}) => {
+const Gallery = () => {
     const [isFiltersShown, setIsFiltersShown] = useState(false);
 
     
@@ -27,15 +27,14 @@ const Gallery = ({adverts}) => {
 
             <MainContentWrapper>
                 < FiltersContainer
-                            isVisible={isFiltersShown}
-                            onClick={handleToggleFiltersList}
+                    isVisible={isFiltersShown}
+                    onClick={handleToggleFiltersList}
                 />
+
                 < CoursesList
                     isVisible={!isFiltersShown}
-                    adverts={adverts}
                 />  
             </MainContentWrapper>
-
         </Section>
     );
 };
